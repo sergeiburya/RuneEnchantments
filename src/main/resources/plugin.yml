@@ -1,0 +1,14 @@
+name: RuneEnchantments
+version: '1.0.0'
+main: sb.ua.rune.RuneEnchantments
+api-version: '1.21'
+authors: [ Serhii_Buria ]
+commands:
+  rune:
+    description: Manage runes
+    usage: /rune give <player> <type>
+    permission: rune.give
+permissions:
+  rune.give:
+    description: Allows admin to give rune books
+    default: op
