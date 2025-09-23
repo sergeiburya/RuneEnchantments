@@ -48,7 +48,7 @@ tasks.processResources {
 
 tasks.register<Copy>("copyPlugin") {
     dependsOn("shadowJar")
-    from(layout.buildDirectory.file("libs/${project.name}-${project.version}.jar"))
+    from(layout.buildDirectory.file("libs/${project.name}-${project.version}-all.jar"))
     into("C:/paper1_21_4/plugins")
 }
 

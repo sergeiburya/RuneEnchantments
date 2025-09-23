@@ -1,0 +1,5 @@
+veinsmelt:
+  spawnChance: 0.05
+  autoSmeltEnabled: true
+  veinMinerEnabled: true
+  veinMinerBlockLimit: 30
