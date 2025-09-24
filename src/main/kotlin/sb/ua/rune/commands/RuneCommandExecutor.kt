@@ -4,6 +4,7 @@ import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import sb.ua.rune.items.RuneBookFactory
 
 class RuneCommandExecutor(command: String) : AbstractCommand(command) {
 
@@ -39,8 +40,19 @@ class RuneCommandExecutor(command: String) : AbstractCommand(command) {
                 return true
             }
 
-            sender.sendMessage("${NamedTextColor.GREEN}§a(Тут ми дамо ${target.name} книгу з рунною $type)")
-            // TODO: Реалізація видачі книги
+            sender.sendMessage("${NamedTextColor.GREEN}§a(Тут ми дамо ${target.name} книгу з рунною $type)") //TODO clean
+            if (type == "veinsmelt") {
+                val book = RuneBookFactory.createVeinSmeltBook()
+                val inventory = target.inventory
+
+                if (inventory.firstEmpty() == -1) {
+                    target.world.dropItemNaturally(target.location, book)
+                    sender.sendMessage("${NamedTextColor.GREEN}§eІнвентар ${target.name} заповнений — книга впала на землю!")
+                } else {
+                    inventory.addItem(book)
+                    sender.sendMessage("${NamedTextColor.GREEN}§aГравець ${target.name} отримав книгу Rune: VeinSmelt")
+                }
+            }
         }
 
         return true

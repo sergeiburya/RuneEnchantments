@@ -9,7 +9,7 @@ import sb.ua.rune.RuneEnchantments
 abstract class AbstractCommand : CommandExecutor {
 
     constructor(command: String): super() {
-        val pluginCommand = RuneEnchantments.instance.getCommand(command)?.setExecutor(this)
+        RuneEnchantments.instance.getCommand(command)?.setExecutor(this)
     }
 
     abstract fun execute(sender: CommandSender, label: String, args: Array<out String>): Any

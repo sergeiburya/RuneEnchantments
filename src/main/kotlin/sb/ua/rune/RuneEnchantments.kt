@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.plugin.java.JavaPlugin
 import sb.ua.rune.commands.RuneCommandExecutor
+import sb.ua.rune.listeners.RuneListener
 
 class RuneEnchantments : JavaPlugin() {
 
@@ -13,10 +14,13 @@ class RuneEnchantments : JavaPlugin() {
 
     override fun onEnable() {
         instance = this
-        RuneCommandExecutor("rune")
 
         val enabledMessage = Component.text("Plugin RuneEnchantments enabled!", NamedTextColor.GREEN)
         server.consoleSender.sendMessage(enabledMessage)
+
+        RuneCommandExecutor("rune")
+        server.pluginManager.registerEvents(RuneListener(this), this)
+
     }
 
     override fun onDisable() {
