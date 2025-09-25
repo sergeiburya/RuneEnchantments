@@ -1,5 +1,25 @@
+# Налаштування плагіна RuneEnchantments
+
+# Налаштування зачарування VeinSmelt
 veinsmelt:
-  spawnChance: 0.05
+  # Чи включено автоматичну виплавку
   autoSmeltEnabled: true
+  # Чи включено видобуток жили
   veinMinerEnabled: true
+  # Максимальна кількість блоків за один цикл VeinMiner
   veinMinerBlockLimit: 30
+
+# Налаштування генерації луту
+loot:
+  # Шанс появи книжки в скринях (0.0 - 1.0)
+  spawnChance: 0.05
+  # Структури, де може з'явитися книжка
+  enabledStructures:
+    - "fortress"
+    - "dungeon"
+    - "stronghold"
+
+# Налаштування логування
+logging:
+  # Рівень деталізації логів (FINE, INFO, WARNING, SEVERE)
+  level: INFO

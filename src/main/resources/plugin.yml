@@ -6,9 +6,15 @@ authors: [ Serhii_Buria ]
 commands:
     rune:
         description: Manage runes
-        usage: /rune give <player> <type>
+        usage: /rune give <player> <type> | /rune apply <type>
         permission: rune.give
 permissions:
   rune.give:
     description: Allows admin to give rune books
+    default: op
+  rune.apply:
+    description: Allows admin to apply rune to tool
+    default: op
+  rune.use:
+    description: Allows using rune commands (general)
     default: op
