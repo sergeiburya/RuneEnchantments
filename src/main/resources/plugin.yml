@@ -5,7 +5,7 @@ api-version: '1.21'
 authors: [ Serhii_Buria ]
 commands:
     rune:
-        description: Manage runes
+        description: Apply rune manually (optional)
         usage: /rune give <player> <type> | /rune apply <type>
         permission: rune.give
 permissions:

@@ -3,6 +3,7 @@ package sb.ua.rune
 import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin
 import sb.ua.rune.commands.RuneCommandExecutor
+import sb.ua.rune.listeners.AnvilListener
 import sb.ua.rune.listeners.BlockBreakListener
 import sb.ua.rune.listeners.LootGenerateListener
 import sb.ua.rune.util.ColorLogger
@@ -73,8 +74,10 @@ class RuneEnchantments : JavaPlugin() {
      */
     private fun registerListeners() {
         try {
-            server.pluginManager.registerEvents(BlockBreakListener(), this)
-            server.pluginManager.registerEvents(LootGenerateListener(), this)
+            val pm = server.pluginManager
+            pm.registerEvents(BlockBreakListener(), this)
+            pm.registerEvents(LootGenerateListener(this), this)
+            pm.registerEvents(AnvilListener(), this)
             ColorLogger.info("Слухачі подій зареєстровані")
         } catch (e: Exception) {
             ColorLogger.severe("Помилка при реєстрації слухачів", e)

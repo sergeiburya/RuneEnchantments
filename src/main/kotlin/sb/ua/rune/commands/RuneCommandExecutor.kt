@@ -223,7 +223,7 @@ class RuneCommandExecutor : TabExecutor {
             return
         }
 
-        if (!item.type.name.endsWith("_PICKAXE")) {
+        if (!item.type.name.endsWith("_pickaxe")) {
             sender.sendMessage(Component.text("Руну можна застосувати лише до кайла").color(NamedTextColor.RED))
             return
         }
