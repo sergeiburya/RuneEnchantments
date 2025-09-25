@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.persistence.PersistentDataType
 import sb.ua.rune.RuneEnchantments
+import util.ColorLogger
 
 /**
  * Фабрика для створення книжок з кастомними зачаруваннями
@@ -54,9 +55,9 @@ object RuneBookFactory {
             meta.persistentDataContainer.set(key, PersistentDataType.INTEGER, 1)
 
             book.itemMeta = meta
-            RuneEnchantments.instance.logger.fine("Книжка VeinSmelt успішно створена")
+            ColorLogger.info("Книжка VeinSmelt успішно створена")
         } catch (e: Exception) {
-            RuneEnchantments.instance.logger.log(java.util.logging.Level.SEVERE, "Помилка при створенні книжки", e)
+            ColorLogger.severe( "Помилка при створенні книжки", e)
         }
 
         return book

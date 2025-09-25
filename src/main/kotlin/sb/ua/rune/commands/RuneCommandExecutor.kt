@@ -10,6 +10,7 @@ import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
 import sb.ua.rune.RuneEnchantments
 import sb.ua.rune.items.RuneBookFactory
+import util.ColorLogger
 import java.util.logging.Level
 
 /**
@@ -35,7 +36,7 @@ class RuneCommandExecutor : TabExecutor {
 
             return true
         } catch (e: Exception) {
-            RuneEnchantments.instance.logger.log(Level.SEVERE, "Помилка при виконанні команди", e)
+            ColorLogger.severe( "Помилка при виконанні команди", e)
             sender.sendMessage(Component.text("Сталася помилка при виконанні команди").color(NamedTextColor.RED))
             return true
         }
@@ -113,7 +114,7 @@ class RuneCommandExecutor : TabExecutor {
             )
         }
 
-        RuneEnchantments.instance.logger.info("Книжка VeinSmelt видана гравцю ${target.name}")
+        ColorLogger.info("Книжка VeinSmelt видана гравцю ${target.name}")
     }
 
     private fun handleApplyCommand(sender: CommandSender, args: Array<out String>) {
@@ -170,7 +171,7 @@ class RuneCommandExecutor : TabExecutor {
         item.itemMeta = meta
 
         sender.sendMessage(Component.text("Руна VeinSmelt застосована до предмета у руці гравця ${target.name}").color(NamedTextColor.GREEN))
-        RuneEnchantments.instance.logger.info("Руна VeinSmelt застосована до ${target.name}")
+        ColorLogger.info("Руна VeinSmelt застосована до ${target.name}")
     }
 
     /**

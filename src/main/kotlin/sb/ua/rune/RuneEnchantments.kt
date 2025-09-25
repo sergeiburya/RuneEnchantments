@@ -23,14 +23,14 @@ class RuneEnchantments : JavaPlugin() {
             saveDefaultConfig()
             registerListeners()
             registerCommands()
-            ColorLogger.info("✓ RuneEnchantments успішно включено!")
+            ColorLogger.info("RuneEnchantments успішно включено!")
         } catch (e: Exception) {
             ColorLogger.severe( "Помилка при включенні плагіна", e)
         }
     }
 
     override fun onDisable() {
-        ColorLogger.info("✓ RuneEnchantments виключено")
+        ColorLogger.info("RuneEnchantments виключено")
     }
 
     private fun registerListeners() {

@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import sb.ua.rune.RuneEnchantments
+import util.ColorLogger
 import java.util.*
 import java.util.logging.Level
 
@@ -75,7 +76,7 @@ class BlockBreakListener : Listener {
             }
 
         } catch (e: Exception) {
-            RuneEnchantments.instance.logger.log(Level.SEVERE, "Помилка при обробці видобутку блоку", e)
+            ColorLogger.severe( "Помилка при обробці видобутку блоку", e)
         }
     }
 
@@ -95,7 +96,7 @@ class BlockBreakListener : Listener {
         event.isDropItems = false
         block.world.dropItemNaturally(block.location, ItemStack(resultMaterial))
 
-        RuneEnchantments.instance.logger.fine("AutoSmelt застосовано для ${block.type}")
+        ColorLogger.info("AutoSmelt застосовано для ${block.type}")
     }
 
     /**
@@ -123,13 +124,13 @@ class BlockBreakListener : Listener {
                     nearby.breakNaturally(player.inventory.itemInMainHand)
                     count++
                     if (count >= maxBlocks) {
-                        RuneEnchantments.instance.logger.fine("Досягнуто ліміт VeinMiner: $maxBlocks блоків")
+                        ColorLogger.info("Досягнуто ліміт VeinMiner: $maxBlocks блоків")
                         return
                     }
                 }
             }
         }
 
-        RuneEnchantments.instance.logger.fine("VeinMiner видобув $count блоків")
+        ColorLogger.info("VeinMiner видобув $count блоків")
     }
 }

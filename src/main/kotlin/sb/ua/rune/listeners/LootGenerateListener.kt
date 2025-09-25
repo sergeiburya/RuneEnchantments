@@ -6,6 +6,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.world.LootGenerateEvent
 import sb.ua.rune.RuneEnchantments
 import sb.ua.rune.items.RuneBookFactory
+import util.ColorLogger
 import java.util.logging.Level
 
 /**
@@ -33,19 +34,10 @@ class LootGenerateListener : Listener {
 
             val book = RuneBookFactory.createVeinSmeltBook()
             event.loot.add(book)
-            RuneEnchantments.instance.logger.fine("Книга VeinSmelt додана до луту (${key})")
+            ColorLogger.info("Книга VeinSmelt додана до луту (${key})")
 
         } catch (e: Exception) {
-            RuneEnchantments.instance.logger.log(Level.SEVERE, "Помилка при генерації луту", e)
+            ColorLogger.severe( "Помилка при генерації луту", e)
         }
-    }
-
-    /**
-     * Перевіряє, чи підходить таблиця луту для додавання книжки
-     */
-    private fun isValidLootTable(lootTable: String): Boolean {
-        return lootTable.contains("fortress") ||
-                lootTable.contains("dungeon") ||
-                lootTable.contains("stronghold")
     }
 }
