@@ -10,15 +10,24 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import sb.ua.rune.RuneEnchantments
-import util.ColorLogger
+import sb.ua.rune.util.ColorLogger
 import java.util.*
-import java.util.logging.Level
 
 /**
- * Слухач події видобутку блоків для реалізації функціоналу VeinSmelt
+ * Event listener for block break events that implements VeinSmelt functionality.
+ * Handles both AutoSmelt (automatic smelting of ores) and VeinMiner (breaking connected ore veins).
+ *
+ * @constructor Creates a new BlockBreakListener
+ *
+ * @since 1.0.0
+ * @see Listener
+ * @see BlockBreakEvent
  */
 class BlockBreakListener : Listener {
 
+    /**
+     * Mapping of ore materials to their smelted results for AutoSmelt functionality.
+     */
     private val autoSmeltOres = mapOf(
         Material.IRON_ORE to Material.IRON_INGOT,
         Material.DEEPSLATE_IRON_ORE to Material.IRON_INGOT,
@@ -26,6 +35,9 @@ class BlockBreakListener : Listener {
         Material.DEEPSLATE_GOLD_ORE to Material.GOLD_INGOT
     )
 
+    /**
+     * Set of ore materials that are affected by VeinMiner functionality.
+     */
     private val veinMineOres = setOf(
         Material.COAL_ORE,
         Material.DEEPSLATE_COAL_ORE,
@@ -40,6 +52,9 @@ class BlockBreakListener : Listener {
         Material.NETHER_QUARTZ_ORE
     )
 
+    /**
+     * Directions to check for connected blocks during VeinMiner operation.
+     */
     private val directions = listOf(
         BlockFace.UP, BlockFace.DOWN,
         BlockFace.NORTH, BlockFace.SOUTH,
@@ -47,7 +62,16 @@ class BlockBreakListener : Listener {
     )
 
     /**
-     * Обробка події видобутку блоку
+     * Handles block break events to apply VeinSmelt functionality.
+     * Checks if the player's tool has the VeinSmelt rune and applies AutoSmelt/VeinMiner as configured.
+     *
+     * @param event The BlockBreakEvent triggered when a block is broken
+     *
+     * @sample
+     * // This method is automatically called by Bukkit when a block is broken
+     *
+     * @see BlockBreakEvent
+     * @see hasVeinRune
      */
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent) {
@@ -56,16 +80,12 @@ class BlockBreakListener : Listener {
             val item = player.inventory.itemInMainHand
             val block = event.block
 
-            /**
-             * Перевірка, чи є на предметі зачарування VeinSmelt
-             */
-            if (!hasVeinRune(item))  {
+            // Check if the item has VeinSmelt rune
+            if (!hasVeinRune(item)) {
                 return
             }
 
-             /**
-             *Перевірка, чи включені функції в конфігурації
-             */
+            // Check if features are enabled in config
             val config = RuneEnchantments.instance.config
             val autoSmeltEnabled = config.getBoolean("veinsmelt.autoSmeltEnabled", true)
             val veinMinerEnabled = config.getBoolean("veinsmelt.veinMinerEnabled", true)
@@ -76,10 +96,19 @@ class BlockBreakListener : Listener {
             }
 
         } catch (e: Exception) {
-            ColorLogger.severe( "Помилка при обробці видобутку блоку", e)
+            ColorLogger.severe("Помилка при обробці видобутку блоку", e)
         }
     }
 
+    /**
+     * Checks if an item has the VeinSmelt rune applied via NBT data.
+     *
+     * @param item The ItemStack to check for VeinSmelt rune
+     * @return true if the item has VeinSmelt rune, false otherwise
+     *
+     * @see RuneEnchantments.VEIN_KEY
+     * @see PersistentDataType
+     */
     private fun hasVeinRune(item: ItemStack?): Boolean {
         if (item == null) return false
         val meta = item.itemMeta ?: return false
@@ -88,7 +117,12 @@ class BlockBreakListener : Listener {
     }
 
     /**
-     * Обробка автоматичної виплавки
+     * Handles AutoSmelt functionality by replacing ore drops with smelted ingots.
+     *
+     * @param event The BlockBreakEvent being processed
+     * @param block The block that was broken
+     *
+     * @see autoSmeltOres
      */
     private fun handleAutoSmelt(event: BlockBreakEvent, block: Block) {
         val resultMaterial = autoSmeltOres[block.type] ?: return
@@ -100,9 +134,15 @@ class BlockBreakListener : Listener {
     }
 
     /**
-     * Обробка видобутку жили
+     * Handles VeinMiner functionality by breaking connected ore blocks of the same type.
+     * Uses a BFS algorithm to find and break connected ores up to the configured limit.
+     *
+     * @param startBlock The initial block that was broken
+     * @param player The player who broke the block
+     *
+     * @see directions
+     * @see veinMineOres
      */
-
     private fun handleVeinMiner(startBlock: Block, player: Player) {
         val maxBlocks = RuneEnchantments.instance.config.getInt("veinsmelt.veinMinerBlockLimit", 30)
 

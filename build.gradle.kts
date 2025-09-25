@@ -22,12 +22,6 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
-
-//    testImplementation("com.github.MockBukkit:MockBukkit:v3.0.0")
-
-
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testImplementation(kotlin("test"))
 }
 
 tasks {
@@ -58,5 +52,12 @@ tasks.register<Copy>("copyPlugin") {
     dependsOn("shadowJar")
     from(layout.buildDirectory.file("libs/${project.name}-${project.version}-all.jar"))
     into("C:/paper1_21_4/plugins")
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 

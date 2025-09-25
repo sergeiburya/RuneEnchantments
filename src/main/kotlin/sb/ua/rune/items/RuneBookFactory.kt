@@ -8,25 +8,40 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import org.bukkit.persistence.PersistentDataType
 import sb.ua.rune.RuneEnchantments
-import util.ColorLogger
+import sb.ua.rune.util.ColorLogger
 
 /**
- * Фабрика для створення книжок з кастомними зачаруваннями
+ * Factory class for creating custom enchantment books.
+ * Provides methods to generate enchanted books with specific rune enchantments.
+ *
+ * @since 1.0.0
+ * @see ItemStack
+ * @see EnchantmentStorageMeta
  */
 object RuneBookFactory {
 
     /**
-     * Створює книжку з зачаруванням VeinSmelt
-     * @return ItemStack - книжка з зачаруванням
+     * Creates an enchanted book with the VeinSmelt rune enchantment.
+     * The book will have a custom display name, lore, and NBT data identifying it as a VeinSmelt rune.
+     *
+     * @return ItemStack representing the enchanted book with VeinSmelt rune
+     *
+     * @sample
+     * // Example usage:
+     * val veinSmeltBook = RuneBookFactory.createVeinSmeltBook()
+     * player.inventory.addItem(veinSmeltBook)
+     *
+     * @throws Exception if there's an error during book creation (logged but not propagated)
+     *
+     * @see Material.ENCHANTED_BOOK
+     * @see RuneEnchantments.VEIN_KEY
      */
     fun createVeinSmeltBook(): ItemStack {
         val book = ItemStack(Material.ENCHANTED_BOOK)
         val meta = book.itemMeta as? EnchantmentStorageMeta ?: return book
 
         try {
-            /**
-            *Встановлення назви та опису
-            */
+            // Set display name and lore
             meta.displayName(
                 Component.text("Rune: VeinSmelt")
                     .color(NamedTextColor.GOLD)
@@ -48,16 +63,14 @@ object RuneBookFactory {
                 )
             )
 
-            /**
-             * Додавання зачарування
-             */
+            // Add NBT data to identify the rune
             val key = RuneEnchantments.VEIN_KEY
             meta.persistentDataContainer.set(key, PersistentDataType.INTEGER, 1)
 
             book.itemMeta = meta
             ColorLogger.info("Книжка VeinSmelt успішно створена")
         } catch (e: Exception) {
-            ColorLogger.severe( "Помилка при створенні книжки", e)
+            ColorLogger.severe("Помилка при створенні книжки", e)
         }
 
         return book
